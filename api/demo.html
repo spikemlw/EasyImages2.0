@@ -1,0 +1,145 @@
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Strict//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-strict.dtd"><html xmlns="http://www.w3.org/1999/xhtml" xml:lang="en" lang="en">
+
+<head>
+
+</head>
+
+<body>
+
+    <div id="nb" class="nosel"> 
+        <div><a class="nbw" href="https://t.me/galgamenoHCG">主频道</a>
+        </div> 
+        <div><a href="https://t.me/CGSFW">蓝频道</a>
+        </div> 
+        <div><a href="https://t.me/galgameonHCG">绿频道</a>
+        </div> 
+        <div><a href="https://t.me/xqsranimegif">动漫频道</a>
+        </div> 
+        <div><a href="https://t.me/+3Yj0MybBbWZjNWIx">群组</a>
+        </div> 
+        <div><a href="https://t.me/xqsrziyuanhuishou">原档回收</a>
+        </div> 
+        <div><a href="https://exhentai.org/?f_search=uploader%3Allflzy+uploader%3A%E6%B7%AB%E4%B9%A6%E9%A6%86+uploader%3AL%E6%B7%AB%E4%B9%A6%E9%A6%86L+uploader%3A%E6%B7%AB%E6%9B%B8%E9%A6%86">自己做的</a> 
+        </div> 
+    </div> 
+      <!-- 搜索框 --> 
+    <div> 
+        <input type="text" id="searchBox" placeholder="搜索..." value=""> <button onclick="searchContent()">搜索</button> 
+    </div>
+
+    <form method="post" enctype="multipart/form-data" name="fileinfo">
+        <input type="file" name="image" accept="image/*" required>
+        <input type="text" name="token" placeholder="在tokenList文件找到token并输入" required> 
+        <input type="submit" value="上传">
+    </form>
+    
+
+    <!-- 位置PPT0001 --> 
+    <div id="con" class="itg gld"> 
+        <!-- ------分界线------ -->
+        <!-- ------分界线------ -->  
+    </div>
+</body>
+
+</html>
+
+<script src="./data.js"></script>
+
+<script type="text/javascript">
+
+    window.onload = function(){
+        console.log(data);
+        var innerstr = '';
+        for(var i = 0; i<data.length; i++)
+        //for(var j = 0; j<1000; j++)
+        {
+            innerstr += 
+` 
+<div class="gl1t">
+    <a href="`+ data[i].tglink +`">
+        <div class="gl4t glname glink">`+ data[i].ctitle +`</div>
+    </a>
+    <div class="gl3t" style="height:340px;width:250px">
+        <a href="`+ data[i].tglink +`">
+            <img style="height:353px;width:250px;top:-6px" alt="" title="" src="`+ data[i].image +`">
+        </a>
+        <!-- 封面地址 -->
+    </div>
+    <div class="gl6t">
+        <div class="gt"
+            style="color:#090909;border-color:#FFFFFF;background:radial-gradient(#FFFFFF,#dfdfdf) !important"
+            title="语言">`+ data[i].lang +`</div>
+        <div class="gt"
+            style="color:#f1f1f1;border-color:#1357df;background:radial-gradient(#1357df,#3377FF) !important"
+            title="汉化组">`+ data[i].group +`</div>
+        <div class="gt"
+            style="color:#f1f1f1;border-color:#d506a2;background:radial-gradient(#d506a2,#F526C2) !important"
+            title="日文标题">`+ data[i].jtitle +`</div>
+        <div class="gt"
+            style="color:#f1f1f1;border-color:#000000;background:radial-gradient(#000000,#080808) !important"
+            title="厂商">`+ data[i].fac +`</div>
+        <!-- 标签 -->
+    </div>
+    <div class="gl5t">
+        <div>
+            <div>
+            </div>
+            <div onclick="popUp()" id="posted_2502357">`+ data[i].date +`</div>
+            <!-- 发售日期 -->
+        </div>
+        <div>
+            <div></div>
+            <div>`+ (data[i].videocount?1:2) +`</div>
+            <!-- 写视频总数 -->
+        </div>
+    </div>
+</div>
+`;
+        }
+        //console.log(innerstr);
+        document.getElementById("con").innerHTML = innerstr;
+    };
+
+    function popUp() {
+        console.log('wuhu');
+        var xhr = new XMLHttpRequest();
+        // 指定请求方法和 URL
+        xhr.open('post', 'http://localhost:3000/api/index.php', true);
+        // 指定响应类型为 JSON
+        xhr.setRequestHeader('Content-Type', 'application/json');
+        // 注册 onload 事件处理程序
+        xhr.onload = function() {
+            if (xhr.status === 200) {
+                // 处理响应数据
+                var data = JSON.parse(xhr.responseText);
+                console.log(data);
+            }
+        };
+        // 发送请求
+        xhr.send();
+    };
+
+    var form = document.forms.namedItem("fileinfo");
+    form.addEventListener(
+        "submit",
+        function (ev) {
+            oData = new FormData(form);
+            //oData.append("CustomField", "This is some extra data");
+            var oReq = new XMLHttpRequest();
+            oReq.open("POST", "http://localhost:3000/api/index.php", true);
+            oReq.onload = function (oEvent) {
+                if (oReq.status == 200) {
+                    console.log('ok', oReq);
+                    console.log('ok', JSON.parse(oReq.responseText));
+                } else {
+                    console.log('ok', oReq);
+                }
+            };
+            oReq.send(oData);
+            ev.preventDefault();
+        },
+        false,
+    );
+
+
+</script>
