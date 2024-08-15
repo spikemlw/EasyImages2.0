@@ -15,7 +15,7 @@
         </div> 
         <div><a href="https://t.me/xqsranimegif">动漫频道</a>
         </div> 
-        <div><a href="https://t.me/+3Yj0MybBbWZjNWIx">群组</a>
+        <div><a href="https://t.me/+3Yj0MybBbWZjNWIx">群组123</a>
         </div> 
         <div><a href="https://t.me/xqsrziyuanhuishou">原档回收</a>
         </div> 
@@ -27,13 +27,18 @@
         <input type="text" id="searchBox" placeholder="搜索..." value=""> <button onclick="searchContent()">搜索</button> 
     </div>
 
-    <form method="post" enctype="multipart/form-data" name="fileinfo">
+    <form id="fileinfo" onsubmit="return false">
         <input type="file" name="image" accept="image/*" required>
-        <input type="text" name="token" placeholder="在tokenList文件找到token并输入" required> 
-        <input type="submit" value="上传">
+        <input type="text" name="token" value="1c17b11693cb5ec63859b091c5b9c1b2" placeholder="在tokenList文件找到token并输入" required>
+        <input type="submit" value="上传文件">
+    </form>
+
+    <form id="datainfo" onsubmit="return false">
+        <label> 中文标题 <input type="text" name="ctitle" placeholder="输入中文标题" required> </label>
+        <label> 图片链接 <input id="imagelink" type="text" name="image" placeholder="先上传文件" required> </label>
+        <input type="submit" value="增加">
     </form>
     
-
     <!-- 位置PPT0001 --> 
     <div id="con" class="itg gld"> 
         <!-- ------分界线------ -->
@@ -51,7 +56,6 @@
         console.log(data);
         var innerstr = '';
         for(var i = 0; i<data.length; i++)
-        //for(var j = 0; j<1000; j++)
         {
             innerstr += 
 ` 
@@ -100,6 +104,10 @@
         document.getElementById("con").innerHTML = innerstr;
     };
 
+    function func() {
+        return false;
+    };
+
     function popUp() {
         console.log('wuhu');
         var xhr = new XMLHttpRequest();
@@ -119,27 +127,56 @@
         xhr.send();
     };
 
-    var form = document.forms.namedItem("fileinfo");
-    form.addEventListener(
-        "submit",
-        function (ev) {
-            oData = new FormData(form);
-            //oData.append("CustomField", "This is some extra data");
-            var oReq = new XMLHttpRequest();
-            oReq.open("POST", "http://localhost:3000/api/index.php", true);
-            oReq.onload = function (oEvent) {
-                if (oReq.status == 200) {
-                    console.log('ok', oReq);
-                    console.log('ok', JSON.parse(oReq.responseText));
-                } else {
-                    console.log('ok', oReq);
-                }
-            };
-            oReq.send(oData);
-            ev.preventDefault();
-        },
-        false,
-    );
+    function upImage() {
+        var form = document.getElementById("fileinfo");
+        oData = new FormData(form);
+        //oData.append("CustomField", "This is some extra data");
+        var oReq = new XMLHttpRequest();
+        oReq.open("POST", "http://localhost:3000/api/index.php", true);
+        oReq.onload = function (oEvent) {
+            if (oReq.status == 200) {
+                console.log('ok', oReq);
+                var response = JSON.parse(oReq.responseText);
+                var image = document.getElementById("imagelink");
+                image.value = response.url;
+                console.log('ok', response);
+            } else {
+                console.log('ok', oReq);
+            }
+        };
+        oReq.send(oData);
+        return false;
+    };
 
+    function upData() {
+        var form = document.getElementById("datainfo");
+        oData = new FormData(form);
+        //oData.append("CustomField", "This is some extra data");
+        var oReq = new XMLHttpRequest();
+        oReq.open("POST", "http://localhost:3000/api/datastore.php", true);
+        oReq.onload = function (oEvent) {
+            if (oReq.status == 200) {
+                console.log('ok', oReq);
+                console.log('ok', JSON.parse(oReq.responseText));
+            } else {
+                console.log('ok', oReq);
+            }
+        };
+        oReq.send(oData);
+    };
+
+    var form = document.getElementById("fileinfo");
+    form.addEventListener('submit', function(event){
+        event.preventDefault();
+        upImage();
+        return false;
+    });
+
+    var form = document.getElementById("datainfo");
+    form.addEventListener('submit', function(event){
+        event.preventDefault();
+        upData();
+        return false;
+    });
 
 </script>
