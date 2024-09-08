@@ -1,0 +1,131 @@
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Strict//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-strict.dtd"><html xmlns="http://www.w3.org/1999/xhtml" xml:lang="en" lang="en">
+
+<head>
+</head>
+
+<body>
+    <form id="fileinfo" onsubmit="return false">
+        <input type="file" name="image" accept="image/*" required>
+        <input type="text" name="token" value="1c17b11693cb5ec63859b091c5b9c1b2" placeholder="在tokenList文件找到token并输入" required>
+        <input type="submit" value="上传">
+    </form>
+    
+    <form id="datainfo" onsubmit="return false">
+        <div class="formitem">
+            <label> 中文标题 <input type="text" name="ctitle" placeholder="输入中文标题" required> </label>
+        <div class="formitem">
+            <label> 日文标题 <input type="text" name="jtitle" placeholder="输入日文标题" required> </label>
+        </div>
+        <div class="formitem">
+            <label> 图片链接 
+                <input id="imagelink" type="text" name="image" placeholder="先上传文件" required> 
+            </label>
+        </div>
+        <div class="formitem">
+            <label> TG连接 <input type="text" name="tglink" placeholder="输入中文标题" required> </label>
+        </div>
+        <div class="formitem">
+            <label> 厂商 <input type="text" name="fac" placeholder="输入厂商" required> </label>
+        </div>
+        <div class="formitem">语言
+            <label> <input type="radio" name="lang" value="汉化" required> 汉化 </label>
+            <label> <input type="radio" name="lang" value="官方中文" required> 官方中文 </label>
+        </div>
+        <div class="formitem">
+            <label > 汉化组 <input type="text" name="group" placeholder="输入中文标题" required> </label>
+            
+        </div>
+        <div class="formitem">来源
+            <label> <input type="radio" name="source" value="合购" required> 合购  </label>
+            <label> <input type="radio" name="source" value="投稿" required> 投稿  </label>
+            <label> <input type="radio" name="source" value="自购" required> 自购  </label>
+        </div>
+        <div class="formitem">额外标签
+            <label> <input type="checkbox" name="anime" value="动态H" required> 动态  </label>
+            <label> <input type="checkbox" name="mosaic" value="无修正" required> 无修正  </label>
+        </div>
+        <div class="formitem">
+            <label> 发售日期 <input type="text" name="date" placeholder="输入发售日期" required> </label>
+        </div>
+        <div class="formitem">
+            <label> 视频总数 <input type="text" name="videocount" placeholder="输入视频总数" required> </label>
+        </div>
+        <div class="formitem">
+            <input style="width: 100px;" type="submit" value="增加">
+        </div>
+    </form>
+    
+</body>
+
+</html> 
+
+<script type="text/javascript">
+
+    function upImage() {
+        var form = document.getElementById("fileinfo");
+        oData = new FormData(form);
+        //oData.append("CustomField", "This is some extra data");
+        var oReq = new XMLHttpRequest();
+        oReq.open("POST", "http://localhost:3000/api/index.php", true);
+        oReq.onload = function (oEvent) {
+            if (oReq.status == 200) {
+                console.log('ok', oReq);
+                var response = JSON.parse(oReq.responseText);
+                var image = document.getElementById("imagelink");
+                image.value = response.url;
+                console.log('ok', response);
+            } else {
+                console.log('ok', oReq);
+            }
+        };
+        oReq.send(oData);
+        return false;
+    };
+
+    function upData() {
+        var form = document.getElementById("datainfo");
+        oData = new FormData(form);
+        //oData.append("CustomField", "This is some extra data");
+        var oReq = new XMLHttpRequest();
+        oReq.open("POST", "http://localhost:3000/api/datastore.php", true);
+        oReq.onload = function (oEvent) {
+            if (oReq.status == 200) {
+                console.log('ok', oReq);
+                console.log('ok', JSON.parse(oReq.responseText));
+            } else {
+                console.log('ok', oReq);
+            }
+        };
+        oReq.send(oData);
+    };
+
+    var form = document.getElementById("fileinfo");
+    form.addEventListener('submit', function(event){
+        event.preventDefault();
+        upImage();
+        return false;
+    });
+
+    var form = document.getElementById("datainfo");
+    form.addEventListener('submit', function(event){
+        event.preventDefault();
+        upData();
+        return false;
+    });
+
+</script>
+
+<style type="text/css">
+
+#datainfo, #fileinfo {
+    padding-left: 30%;
+    width: 50%;
+}
+
+.formitem {
+    width: 100%;
+    display: flex;
+    flex-direction: column;
+}
+
+</style>

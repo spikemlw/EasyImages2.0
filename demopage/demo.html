@@ -24,19 +24,11 @@
       <!-- 搜索框 --> 
     <div> 
         <input type="text" id="searchBox" placeholder="搜索..." value=""> <button onclick="searchContent()">搜索</button> 
+        <button onclick="additem()">添加记录</button> 
     </div>
-
-    <form id="fileinfo" onsubmit="return false">
-        <input type="file" name="image" accept="image/*" required>
-        <input type="text" name="token" value="1c17b11693cb5ec63859b091c5b9c1b2" placeholder="在tokenList文件找到token并输入" required>
-        <input type="submit" value="上传文件">
-    </form>
-
-    <form id="datainfo" onsubmit="return false">
-        <label> 中文标题 <input type="text" name="ctitle" placeholder="输入中文标题" required> </label>
-        <label> 图片链接 <input id="imagelink" type="text" name="image" placeholder="先上传文件" required> </label>
-        <input type="submit" value="增加">
-    </form>
+    <div> 
+        
+    </div>
     
     <!-- 位置PPT0001 --> 
     <div id="con" class="itg gld"> 
@@ -68,34 +60,7 @@
         </a>
         <!-- 封面地址 -->
     </div>
-    <div class="gl6t">
-        <div class="gt"
-            style="color:#090909;border-color:#FFFFFF;background:radial-gradient(#FFFFFF,#dfdfdf) !important"
-            title="语言">`+ data[i].lang +`</div>
-        <div class="gt"
-            style="color:#f1f1f1;border-color:#1357df;background:radial-gradient(#1357df,#3377FF) !important"
-            title="汉化组">`+ data[i].group +`</div>
-        <div class="gt"
-            style="color:#f1f1f1;border-color:#d506a2;background:radial-gradient(#d506a2,#F526C2) !important"
-            title="日文标题">`+ data[i].jtitle +`</div>
-        <div class="gt"
-            style="color:#f1f1f1;border-color:#000000;background:radial-gradient(#000000,#080808) !important"
-            title="厂商">`+ data[i].fac +`</div>
-        <!-- 标签 -->
-        <div class="gt" style="color:#f1f1f1;border-color:#2E8B57;background:radial-gradient(#2E8B57,#2E8B57) !important" title="日文标题">リリックボックス</div>
-        <div class="gt" style="color:#f1f1f1;border-color:#ff0000;background:radial-gradient(#ff0000,#ff0000) !important" title="日文标题">survive</div>
-        <div class="gt" style="color:#070707;border-color:#00fff2;background:radial-gradient(#00fff2,#00fff2) !important" title="male:sole male">自购</div>
-        <div class="gt" style="color:#f1f1f1;border-color:#ff1493;background:radial-gradient(#ff1493,#ff1493) !important" title="日文标题">アパタイト</div>
-        <div class="gt" style="color:#f1f1f1;border-color:#1E90FF;background:radial-gradient(#1E90FF,#1E90FF) !important" title="日文标题">WORLDPG ANIMATION</div>
-        <div class="gt" style="color:#090909;border-color:#FFFFFF;background:radial-gradient(#FFFFFF,#dfdfdf) !important" title="语言">投稿</div>
-        <div class="gt" style="color:#070707;border-color:#00fff2;background:radial-gradient(#00fff2,#00fff2) !important" title="male:sole male">合购</div>
-        <div class="gt" style="color:#090909;border-color:#FFFFFF;background:radial-gradient(#FFFFFF,#dfdfdf) !important" title="语言">汉化</div> 
-        <div class="gt" style="color:#f1f1f1;border-color:#1357df;background:radial-gradient(#1357df,#3377FF) !important" title="汉化组">萌你妹</div>
-        <div class="gt" style="color:#f1f1f1;border-color:#ff9100;background:radial-gradient(#ff9100,#ff9100) !important" title="汉化组">VNR</div>
-        <div class="gt" style="color:#f1f1f1;border-color:#ff0000;background:radial-gradient(#ff0000,#ff0000) !important" title="动态">动态H</div>
-        <div class="gt" style="color:#020202;border-color:#33ff00;background:radial-gradient(#33ff00,#33ff00) !important" title="无修正">无修正</div>
-        <div class="gt" style="color:#070707;border-color:#00fff2;background:radial-gradient(#00fff2,#00fff2) !important" title="汉化组">官方中文</div>
-    </div>
+    ` + getTagsHtml(data[i]) + `
     <div class="gl5t">
         <div>
             <div>
@@ -112,84 +77,100 @@
 </div>
 `;
         }
-        //console.log(innerstr);
         document.getElementById("con").innerHTML = innerstr;
     };
 
-    function func() {
-        return false;
+    function getTagsHtml(dataitem)
+    {
+        
+        console.log('dataitem', dataitem);
+        var str = ` <div class="gl6t"> `;
+        if(dataitem.jtitle)
+        {
+            str += `
+            <div class="gt" 
+                style="color:#f1f1f1;border-color:#2E8B57;background:radial-gradient(#2E8B57,#2E8B57) !important" 
+                title="日文标题">`+ dataitem.jtitle + `
+            </div>`;
+        }
+        if(dataitem.fac)
+        {
+            str += `
+            <div class="gt" 
+                style="color:#f1f1f1;border-color:#000000;background:radial-gradient(#000000,#080808) !important" 
+                title="厂商">`+ dataitem.fac + `
+            </div>`;
+        }
+        if(dataitem.lang)
+        {
+            str += `        
+            <div class="gt"
+                style="color:#090909;border-color:#FFFFFF;background:radial-gradient(#FFFFFF,#dfdfdf) !important"
+                title="语言">`+ dataitem.lang + `
+            </div>`;
+        }
+        if(dataitem.group)
+        {
+            str += `
+            <div class="gt" 
+                style="color:#f1f1f1;border-color:#1357df;background:radial-gradient(#1357df,#3377FF) !important" 
+                title="汉化组">`+ dataitem.group +`
+            </div>`;
+        }
+        if(dataitem.source)
+        {
+            str += `
+            <div class="gt" 
+                style="color:#f1f1f1;border-color:#1357df;background:radial-gradient(#1357df,#3377FF) !important" 
+                title="来源">`+ dataitem.source +`
+            </div>`;
+        }
+        if(dataitem.anime)
+        {
+            str += `
+            <div class="gt" 
+                style="color:#f1f1f1;border-color:#ff0000;background:radial-gradient(#ff0000,#ff0000) !important" 
+                title="动态">` + dataitem.anime + `
+            </div>`;
+        }
+        if(dataitem.mosaic)
+        {
+            str += `
+            <div class="gt" 
+                style="color:#020202;border-color:#33ff00;background:radial-gradient(#33ff00,#33ff00) !important" 
+                title="无修正">` + dataitem.mosaic + `
+            </div>`;
+        }
+        str += `</div>`;
+        return str;
+        // <div class="gt"
+        //     style="color:#f1f1f1;border-color:#1357df;background:radial-gradient(#1357df,#3377FF) !important"
+        //     title="汉化组">`+ data[i].group +`</div>
+        // <div class="gt"
+        //     style="color:#f1f1f1;border-color:#d506a2;background:radial-gradient(#d506a2,#F526C2) !important"
+        //     title="日文标题">`+ data[i].jtitle +`</div>
+        // <div class="gt"
+        //     style="color:#f1f1f1;border-color:#000000;background:radial-gradient(#000000,#080808) !important"
+        //     title="厂商">`+ data[i].fac +`</div>
+        // <div class="gt" style="color:#f1f1f1;border-color:#2E8B57;background:radial-gradient(#2E8B57,#2E8B57) !important" title="日文标题">リリックボックス</div>
+        // <div class="gt" style="color:#f1f1f1;border-color:#ff0000;background:radial-gradient(#ff0000,#ff0000) !important" title="日文标题">survive</div>
+        // <div class="gt" style="color:#070707;border-color:#00fff2;background:radial-gradient(#00fff2,#00fff2) !important" title="male:sole male">自购</div>
+        // <div class="gt" style="color:#f1f1f1;border-color:#ff1493;background:radial-gradient(#ff1493,#ff1493) !important" title="日文标题">アパタイト</div>
+        // <div class="gt" style="color:#f1f1f1;border-color:#1E90FF;background:radial-gradient(#1E90FF,#1E90FF) !important" title="日文标题">WORLDPG ANIMATION</div>
+        // <div class="gt" style="color:#090909;border-color:#FFFFFF;background:radial-gradient(#FFFFFF,#dfdfdf) !important" title="语言">投稿</div>
+        // <div class="gt" style="color:#070707;border-color:#00fff2;background:radial-gradient(#00fff2,#00fff2) !important" title="male:sole male">合购</div>
+        // <div class="gt" style="color:#090909;border-color:#FFFFFF;background:radial-gradient(#FFFFFF,#dfdfdf) !important" title="语言">汉化</div> 
+        // <div class="gt" style="color:#f1f1f1;border-color:#1357df;background:radial-gradient(#1357df,#3377FF) !important" title="汉化组">萌你妹</div>
+        // <div class="gt" style="color:#f1f1f1;border-color:#ff9100;background:radial-gradient(#ff9100,#ff9100) !important" title="汉化组">VNR</div>
+        // <div class="gt" style="color:#f1f1f1;border-color:#ff0000;background:radial-gradient(#ff0000,#ff0000) !important" title="动态">动态H</div>
+        // <div class="gt" style="color:#020202;border-color:#33ff00;background:radial-gradient(#33ff00,#33ff00) !important" title="无修正">无修正</div>
+        // <div class="gt" style="color:#070707;border-color:#00fff2;background:radial-gradient(#00fff2,#00fff2) !important" title="汉化组">官方中文</div>
+        // 日文标题 厂商 语言/汉化组 来源(自购/合购/投稿) 动态 无修正
     };
 
-    function popUp() {
-        console.log('wuhu');
-        var xhr = new XMLHttpRequest();
-        // 指定请求方法和 URL
-        xhr.open('post', 'http://localhost:3000/api/index.php', true);
-        // 指定响应类型为 JSON
-        xhr.setRequestHeader('Content-Type', 'application/json');
-        // 注册 onload 事件处理程序
-        xhr.onload = function() {
-            if (xhr.status === 200) {
-                // 处理响应数据
-                var data = JSON.parse(xhr.responseText);
-                console.log(data);
-            }
-        };
-        // 发送请求
-        xhr.send();
+    function additem() {
+        window.location.href = './form.html';
     };
-
-    function upImage() {
-        var form = document.getElementById("fileinfo");
-        oData = new FormData(form);
-        //oData.append("CustomField", "This is some extra data");
-        var oReq = new XMLHttpRequest();
-        oReq.open("POST", "http://localhost:3000/api/index.php", true);
-        oReq.onload = function (oEvent) {
-            if (oReq.status == 200) {
-                console.log('ok', oReq);
-                var response = JSON.parse(oReq.responseText);
-                var image = document.getElementById("imagelink");
-                image.value = response.url;
-                console.log('ok', response);
-            } else {
-                console.log('ok', oReq);
-            }
-        };
-        oReq.send(oData);
-        return false;
-    };
-
-    function upData() {
-        var form = document.getElementById("datainfo");
-        oData = new FormData(form);
-        //oData.append("CustomField", "This is some extra data");
-        var oReq = new XMLHttpRequest();
-        oReq.open("POST", "http://localhost:3000/api/datastore.php", true);
-        oReq.onload = function (oEvent) {
-            if (oReq.status == 200) {
-                console.log('ok', oReq);
-                console.log('ok', JSON.parse(oReq.responseText));
-            } else {
-                console.log('ok', oReq);
-            }
-        };
-        oReq.send(oData);
-    };
-
-    var form = document.getElementById("fileinfo");
-    form.addEventListener('submit', function(event){
-        event.preventDefault();
-        upImage();
-        return false;
-    });
-
-    var form = document.getElementById("datainfo");
-    form.addEventListener('submit', function(event){
-        event.preventDefault();
-        upData();
-        return false;
-    });
 
 </script>
 
